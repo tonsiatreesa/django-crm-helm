@@ -1,13 +1,15 @@
 FROM python:alpine
 
-EXPOSE 8083
-
 WORKDIR /app
+
+COPY requirements.txt .
+
+RUN apk add --no-cache --virtual .build-deps gcc musl-dev mariadb-dev \
+    && pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
 
 COPY django-crm .
 COPY settings.py ./webcrm/settings.py
-
-RUN pip install -r requirements.txt
 
 RUN "python manage.py migrate"
 # Start app
