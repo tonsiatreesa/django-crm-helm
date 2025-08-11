@@ -52,4 +52,4 @@ To shut down:
 ansible-playbook down.yml
 ```
 
-This is a reproducible mysql setup
+This is a reproducible mysql setup. I have added django-crm. The first time you run django crm you need to create a super user. Run `docker compose exec crm sh -c "python manage.py setupdata"`. You will need to paste the output into a file so that you can use the super user to created a super user with a password you know.

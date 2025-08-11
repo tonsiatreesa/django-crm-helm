@@ -2,15 +2,16 @@ FROM python:alpine
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY django-crm/requirements.txt .
 
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev mariadb-dev \
+RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev pkgconf mariadb-dev && \
+    apk add --no-cache mariadb-connector-c-dev \
     && pip install --no-cache-dir -r requirements.txt \
-    && apk del .build-deps
+    && apk del build-deps
 
 COPY django-crm .
-COPY settings.py ./webcrm/settings.py
+COPY settings.py /app/webcrm/settings.py
 
-RUN "python manage.py migrate"
 # Start app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8080"]
+#CMD ["tail", "-f", "/dev/null"]
