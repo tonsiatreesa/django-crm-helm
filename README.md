@@ -3,7 +3,20 @@ django crm from docker compose to helm chart
 
 To run this with `docker compose`:
 
+1. Edit the file patch-settings.diff to have your hostname and url:
+
+```diff
+ # Add your hosts to the list.
+-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+-
++ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'codespace-dev.k3p.dev']
++CSRF_TRUSTED_ORIGINS=['https://codespace-dev.k3p.dev']
+
+```
+
 ```bash
+cp django-crm/webcrm/settings.py .
+patch <patch-settings.diff
 ansible-playbook up.yml
 ```
 
