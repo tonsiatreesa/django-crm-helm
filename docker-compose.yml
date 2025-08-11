@@ -2,6 +2,7 @@ services:
 
   crm:
     build: .
+    restart: always
     depends_on:
     - db
     ports:
